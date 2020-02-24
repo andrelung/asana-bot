@@ -196,7 +196,7 @@ function setProperties (task) {
 // Iterates through events, looking for new tasks to assign
 exports.handler = function (event, context, callback) {
 
-  console.log("handler executed: " + event)
+  console.log("handler executed: " + JSON.stringify(event))
 
   // Validate if this is Setup phase
   let xHook = event.headers['x-hook-secret']
@@ -211,15 +211,16 @@ exports.handler = function (event, context, callback) {
     })
     return
   }
-
+  console.log("handler test 1")
   // Release webhook
   callback(null, {
     statusCode: 200,
     body: 'at work *beep!*'
   })
-
+  console.log("handler test 2")
   // Parse contents
   JSON.parse(event.body).events.map((event) => {
+    console.log("handler test 2.1")
     if ((event.type === 'task') && ((event.action === 'added') || (event.action === 'changed'))) {
       let url = TASK_URL + event.resource
       axios.get(url, {
