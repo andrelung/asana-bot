@@ -42,14 +42,14 @@ function getProjectOwner (project, callback) {
 
 // Updates contents of the new task
 function assignOwner (task) {
-  let url = TASK_URL + task.id
+  let url = TASK_URL + task.gid
   let update = {}
-  getProjectOwner(task.memberships[0].project.id, (owner) => {
+  getProjectOwner(task.memberships[0].project.gid, (owner) => {
     if (!owner) {
       throw "project has now owner"
     }
     if (!task.assignee) {
-      update.assignee = owner.id
+      update.assignee = owner.gid
     }
     if (update === {}) {
       return
@@ -59,9 +59,9 @@ function assignOwner (task) {
         'Authorization': TOKEN
       }
     }).then(res => {
-      console.log('Task %d has new owner', task.id)
+      console.log('Task %d has new owner', task.gid)
     }).catch(error => {
-      console.log('Task %d owner failed', task.id)
+      console.log('Task %d owner failed', task.gid)
       console.log(error.response.data.errors)
     })
   })
@@ -71,21 +71,21 @@ function completeTask (task) {
   let update = {
     completed: true
   }
-  let url = TASK_URL + task.id
+  let url = TASK_URL + task.gid
   axios.put(url, qs.stringify(update), {
     headers: {
       'Authorization': TOKEN
     }
   }).then(res => {
-    console.log('Task %d completed', task.id)
+    console.log('Task %d completed', task.gid)
   }).catch(error => {
-    console.log('Task %d completed failed', task.id)
+    console.log('Task %d completed failed', task.gid)
     console.log(error.response.data.errors)
   })
 }
 
 function moveToSectionDone (task) {
-  let url = PROJECT_URL + task.memberships[0].project.id + '/sections'
+  let url = PROJECT_URL + task.memberships[0].project.gid + '/sections'
   axios.get(url, {
     headers: {
       'Authorization': TOKEN
@@ -94,21 +94,21 @@ function moveToSectionDone (task) {
     let sections = res.data.data
 
     let update = {
-      task: task.id
+      task: task.gid
     }
-    let url = SECTIONS_URL + sections[sections.length - 1].id + '/addTask'
+    let url = SECTIONS_URL + sections[sections.length - 1].gid + '/addTask'
     axios.post(url, qs.stringify(update), {
       headers: {
         'Authorization': TOKEN
       }
     }).then(res => {
-      console.log('Task %d moved to done', task.id)
+      console.log('Task %d moved to done', task.gid)
     }).catch(error => {
-      console.log('Task %d moving to done failed', task.id)
+      console.log('Task %d moving to done failed', task.gid)
       console.log(error.response.data.errors)
     })
   }).catch(error => {
-    console.log('Task %d fetching sections failed', task.id)
+    console.log('Task %d fetching sections failed', task.gid)
     console.log(error.response.data.errors)
   })
 }
