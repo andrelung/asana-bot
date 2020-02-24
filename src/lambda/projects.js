@@ -4,6 +4,7 @@ const { TOKEN, BOT_URL } = process.env
 
 exports.handler = function (event, context, callback) {
   // Getting all subscribed projects
+  console.log("test2")
   if (event.httpMethod == "GET"){
       let url = "https://app.asana.com/api/1.0/webhooks?workspace="+event.queryStringParameters.workspace
       axios.get(url, {
@@ -12,6 +13,8 @@ exports.handler = function (event, context, callback) {
         }
       }).then(res => {
         let webhooks = ""
+        console.log("test2")
+        console.log(res)
         res.data.data.map(webhook => {
           webhooks += webhook.resource.name + " - "+ webhook.id + "  \n"
         })
