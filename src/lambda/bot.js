@@ -20,6 +20,8 @@ const due = {
   nextMonth: "#month"
 }
 
+console.log("test1")
+
 function getProjectOwner (project, callback) {
   let url = PROJECT_URL + project
   let data = {
@@ -112,6 +114,7 @@ function moveToSectionDone (task) {
 }
 
 function setProperties (task) {
+  console.log("runnning properties function")
   let update = {
     data: {}
   }
@@ -193,7 +196,7 @@ function setProperties (task) {
 // Iterates through events, looking for new tasks to assign
 exports.handler = function (event, context, callback) {
 
-  // console.log(event)
+  console.log("handler executed: " + event)
 
   // Validate if this is Setup phase
   let xHook = event.headers['x-hook-secret']
