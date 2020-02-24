@@ -221,9 +221,9 @@ exports.handler = function (event, context, callback) {
   // Parse contents
   JSON.parse(event.body).events.map((event) => {
     console.log("handler test 2.1: " + JSON.stringify(event))
-    if ((event.type === 'task') && ((event.action === 'added') || (event.action === 'changed'))) {
+    if ((event.resource.resource_type === 'task') && ((event.action === 'added') || (event.action === 'changed'))) {
       console.log("handler test 2.2")
-      let url = TASK_URL + event.resource
+      let url = TASK_URL + event.resource.gid
       axios.get(url, {
         headers: {
           'Authorization': TOKEN
