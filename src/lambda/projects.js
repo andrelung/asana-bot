@@ -14,9 +14,10 @@ exports.handler = function (event, context, callback) {
       }).then(res => {
         let webhooks = ""
         console.log("test3")
-        console.log(res.data)
+        console.log(res.data.data)
         res.data.data.map(webhook => {
-          webhooks += webhook.resource.name + " - "+ webhook.id + "  \n"
+          console.log(webhook)
+          webhooks += webhook.resource.name + " - "+ webhook.gid + "  \n"
         })
         callback(null, {
           statusCode: 200,
