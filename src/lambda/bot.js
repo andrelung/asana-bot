@@ -220,8 +220,9 @@ exports.handler = function (event, context, callback) {
   console.log("handler test 2")
   // Parse contents
   JSON.parse(event.body).events.map((event) => {
-    console.log("handler test 2.1")
+    console.log("handler test 2.1: " + JSON.stringify(event))
     if ((event.type === 'task') && ((event.action === 'added') || (event.action === 'changed'))) {
+      console.log("handler test 2.2")
       let url = TASK_URL + event.resource
       axios.get(url, {
         headers: {
@@ -232,6 +233,7 @@ exports.handler = function (event, context, callback) {
 
         // if task is completed
         if (task.completed) {
+          console.log("handler test 2.3 (completed):" + JSON.stringify(task))
           if (task.memberships[0].section.name !== "Done") {
               moveToSectionDone(task)
           }
@@ -249,6 +251,7 @@ exports.handler = function (event, context, callback) {
           assignOwner(task)
         }
         // apply properties
+        console.log("handler test 3")
         setProperties(task)
 
       }).catch(error => {
