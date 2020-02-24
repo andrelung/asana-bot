@@ -14,7 +14,7 @@ exports.handler = function (event, context, callback) {
       }).then(res => {
         let webhooks = ""
         console.log("test3")
-        console.log(res)
+        console.log(res.data)
         res.data.data.map(webhook => {
           webhooks += webhook.resource.name + " - "+ webhook.id + "  \n"
         })
