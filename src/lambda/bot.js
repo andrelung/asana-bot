@@ -35,7 +35,7 @@ function getProjectOwner (project, callback) {
     let project = res.data.data
     callback(project.owner)
   }).catch(error => {
-    console.log('Retrieving project %d failed', project)
+    console.log('Retrieving project %s failed', project)
     return null
   })
 }
@@ -59,9 +59,9 @@ function assignOwner (task) {
         'Authorization': TOKEN
       }
     }).then(res => {
-      console.log('Task %d has new owner', task.gid)
+      console.log('Task %s has new owner', task.gid)
     }).catch(error => {
-      console.log('Task %d owner failed', task.gid)
+      console.log('Task %s owner failed', task.gid)
       console.log(error.response.data.errors)
     })
   })
@@ -77,9 +77,9 @@ function completeTask (task) {
       'Authorization': TOKEN
     }
   }).then(res => {
-    console.log('Task %d completed', task.gid)
+    console.log('Task %s completed', task.gid)
   }).catch(error => {
-    console.log('Task %d completed failed', task.gid)
+    console.log('Task %s completed failed', task.gid)
     console.log(error.response.data.errors)
   })
 }
@@ -102,13 +102,13 @@ function moveToSectionDone (task) {
         'Authorization': TOKEN
       }
     }).then(res => {
-      console.log('Task %d moved to done', task.gid)
+      console.log('Task %s moved to done', task.gid)
     }).catch(error => {
-      console.log('Task %d moving to done failed', task.gid)
+      console.log('Task %s moving to done failed', task.gid)
       console.log(error.response.data.errors)
     })
   }).catch(error => {
-    console.log('Task %d fetching sections failed', task.gid)
+    console.log('Task %s fetching sections failed', task.gid)
     console.log(error.response.data.errors)
   })
 }
@@ -180,15 +180,15 @@ function setProperties (task) {
 
   update.data.name = name
 
-  let url = TASK_URL + task.id
+  let url = TASK_URL + task.gid
   axios.put(url, update, {
     headers: {
       'Authorization': TOKEN
     }
   }).then(res => {
-    console.log('Task %d properties updated', task.id)
+    console.log('Task %s properties updated', task.gid)
   }).catch(error => {
-    console.log('Task %d properties failed', task.id)
+    console.log('Task %s properties failed', task.gid)
     console.log(error.response.data.errors)
   })
 }
@@ -255,7 +255,7 @@ exports.handler = function (event, context, callback) {
         setProperties(task)
 
       }).catch(error => {
-        console.log('Retrieving task %d failed', event.resource)
+        console.log('Retrieving task %s failed', event.resource.gid)
         console.log(error.response.data.errors)
       })
     }
